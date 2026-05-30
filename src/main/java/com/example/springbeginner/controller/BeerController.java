@@ -47,7 +47,10 @@ public class BeerController {
     public Beer update(@RequestBody Beer beer){
         Beer updateBeer = beers.stream()
                 .filter(item -> item.getId() == beer.getId())
-                .findFirst().orElseThrow();
+                .findFirst().orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format("Beer with id %id not found.", beer.getId())
+                ));
         updateBeer.setAbv(beer.getAbv());
         updateBeer.setName(beer.getName());
 
@@ -58,7 +61,10 @@ public class BeerController {
     public void delete(@PathVariable int id){
         Beer deleteBeer = beers.stream()
                 .filter(item -> item.getId() == id)
-                .findFirst().orElseThrow();
+                .findFirst().orElseThrow(()-> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        String.format("Beer with id %id no exist.", id)
+                ));
 
         beers.remove(deleteBeer);
     }

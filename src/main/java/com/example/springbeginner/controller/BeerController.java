@@ -1,10 +1,13 @@
 package com.example.springbeginner.controller;
 
+import com.example.springbeginner.configuration.BeanConfiguration;
 import com.example.springbeginner.exceptions.DuplicateEntityException;
 import com.example.springbeginner.exceptions.EntityNotFoundException;
 import com.example.springbeginner.models.Beer;
-import com.example.springbeginner.services.BeerServiceImpl;
+import com.example.springbeginner.services.BeerService;
 import jakarta.validation.Valid;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,10 +18,11 @@ import java.util.List;
 @RequestMapping("/api/beers")
 public class BeerController {
 
-    private BeerServiceImpl service;
+    private BeerService service;
 
     public BeerController(){
-        this.service = new BeerServiceImpl();
+        ApplicationContext context = new AnnotationConfigApplicationContext(BeanConfiguration.class);
+        this.service = context.getBean(BeerService.class);
     }
     @GetMapping
     public List<Beer> getAll(){

@@ -3,26 +3,29 @@ package com.example.springbeginner.services;
 import com.example.springbeginner.exceptions.DuplicateEntityException;
 import com.example.springbeginner.exceptions.EntityNotFoundException;
 import com.example.springbeginner.models.Beer;
-import com.example.springbeginner.repositories.BeerRepositoryImpl;
+import com.example.springbeginner.repositories.BeerRepository;
 
 import java.util.List;
 
-public class BeerServiceImpl {
+public class BeerServiceImpl implements BeerService {
 
-    private BeerRepositoryImpl repository;
+    private BeerRepository repository;
 
-    public BeerServiceImpl(){
-        this.repository = new BeerRepositoryImpl();
+    public BeerServiceImpl(BeerRepository repository){
+        this.repository = repository;
     }
 
+    @Override
     public List<Beer> getAll(){
         return repository.getAll();
     }
 
+    @Override
     public Beer getById(int id){
         return repository.getById(id);
     }
 
+    @Override
     public void create(Beer beer){
         boolean duplicateExists = true;
 
@@ -39,6 +42,7 @@ public class BeerServiceImpl {
         repository.create(beer);
     }
 
+    @Override
     public void update(Beer beer){
         boolean duplicateExists = true;
 
@@ -58,6 +62,7 @@ public class BeerServiceImpl {
         repository.update(beer);
     }
 
+    @Override
     public void delete(int id){
         repository.delete(id);
     }

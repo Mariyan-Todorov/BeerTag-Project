@@ -4,38 +4,41 @@ import com.example.springbeginner.exceptions.DuplicateEntityException;
 import com.example.springbeginner.exceptions.EntityNotFoundException;
 import com.example.springbeginner.models.Beer;
 import com.example.springbeginner.repositories.BeerRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BeerServiceImpl implements BeerService {
 
     private BeerRepository repository;
 
+    @Autowired
     public BeerServiceImpl(BeerRepository repository){
         this.repository = repository;
     }
 
     @Override
-    public List<Beer> getAll(){
-        return repository.getAll();
+    public List<Beer> get(String name, Double minAbv, Double maxAbv, Integer styleId, String sortBy, String sortOrder) {
+        return repository.get(name, minAbv, maxAbv, styleId, sortBy, sortOrder);
     }
 
     @Override
-    public Beer getById(int id){
-        return repository.getById(id);
+    public Beer get(int id) {
+        return repository.get(id);
     }
 
     @Override
-    public void create(Beer beer){
+    public void create(Beer beer) {
         boolean duplicateExists = true;
-
-        try{
-            repository.getByName(beer.getName());
-        }catch(EntityNotFoundException e){
+        try {
+            repository.get(beer.getName());
+        } catch (EntityNotFoundException e) {
             duplicateExists = false;
         }
 
-        if( duplicateExists){
+        if (duplicateExists) {
             throw new DuplicateEntityException("Beer", "name", beer.getName());
         }
 
@@ -43,27 +46,26 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void update(Beer beer){
+    public void update(Beer beer) {
         boolean duplicateExists = true;
-
-        try{
-            Beer existingBeer = repository.getByName(beer.getName());
-            if(existingBeer.getId() == beer.getId()){
+        try {
+            Beer existingBeer = repository.get(beer.getName());
+            if (existingBeer.getId() == beer.getId()) {
                 duplicateExists = false;
             }
-        }catch (EntityNotFoundException e){
+        } catch (EntityNotFoundException e) {
             duplicateExists = false;
         }
 
-        if(duplicateExists){
-            throw new DuplicateEntityException("Beer","name", beer.getName());
+        if (duplicateExists) {
+            throw new DuplicateEntityException("Beer", "name", beer.getName());
         }
 
         repository.update(beer);
     }
 
     @Override
-    public void delete(int id){
+    public void delete(int id) {
         repository.delete(id);
     }
 }

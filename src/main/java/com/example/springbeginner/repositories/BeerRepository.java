@@ -5,11 +5,11 @@ import com.example.springbeginner.models.Beer;
 import java.util.List;
 
 public interface BeerRepository {
-    List<Beer> getAll();
+    List<Beer> get(String name, Double minAbv, Double maxAbv, Integer styleId, String sortBy, String sortOrder);
 
-    Beer getById(int id);
+    Beer get(int id);
 
-    Beer getByName(String name);
+    Beer get(String name);
 
     void create(Beer beer);
 

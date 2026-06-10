@@ -2,8 +2,6 @@ package com.example.springbeginner.repositories;
 
 import com.example.springbeginner.exceptions.EntityNotFoundException;
 import com.example.springbeginner.models.Beer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,11 +9,11 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Repository
+//@Repository
 public class BeerRepositoryImpl implements BeerRepository {
     private final List<Beer> beers;
 
-    @Autowired
+//    @Autowired
     public BeerRepositoryImpl(StyleRepository styleRepository) {
         beers = new ArrayList<>();
         Beer beer = new Beer(1, "Glarus English Ale", 4.6);
@@ -40,6 +38,11 @@ public class BeerRepositoryImpl implements BeerRepository {
         result = sortBy(result, sortBy);
         result = order(result, sortOrder);
         return result;
+    }
+
+    @Override
+    public List<Beer> getAll(){
+        return beers;
     }
 
     @Override

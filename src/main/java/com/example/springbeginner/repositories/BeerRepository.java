@@ -16,4 +16,6 @@ public interface BeerRepository {
     void update(Beer beer);
 
     void delete(int id);
+
+    List<Beer> getAll();
 }

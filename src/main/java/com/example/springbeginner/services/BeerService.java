@@ -6,6 +6,9 @@ import com.example.springbeginner.models.User;
 import java.util.List;
 
 public interface BeerService {
+
+    List<Beer> getAll();
+
     List<Beer> get(String name, Double minAbv, Double maxAbv, Integer styleId, String sortBy, String sortOrder);
 
     Beer get(int id);

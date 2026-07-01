@@ -53,7 +53,7 @@ public class BeerRepositoryImpl implements BeerRepository {
                 .orElseThrow(() -> new EntityNotFoundException("Beer", id));
     }
 
-    @Override
+
     public Beer get(String name) {
         return beers.stream()
                 .filter(beer -> beer.getName().equals(name))

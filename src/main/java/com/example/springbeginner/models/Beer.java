@@ -1,11 +1,25 @@
 package com.example.springbeginner.models;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name="beers")
 public class Beer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="beer_id")
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "abv")
     private double abv;
+
+    @ManyToOne
+    @JoinColumn(name = "style_id")
     private Style style;
 
     public Beer(){

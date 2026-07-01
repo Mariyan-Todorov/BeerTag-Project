@@ -2,34 +2,39 @@ package com.example.springbeginner.repositories;
 
 import com.example.springbeginner.exceptions.EntityNotFoundException;
 import com.example.springbeginner.models.Style;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class StyleRepositoryImpl implements StyleRepository{
 
-    private final List<Style> styles;
+   private final SessionFactory sessionFactory;
 
-    public StyleRepositoryImpl() {
-        styles = new ArrayList<>();
-
-        styles.add(new Style(1, "Special Ale"));
-        styles.add(new Style(2, "English Porter"));
-        styles.add(new Style(3, "Special Ale"));
+    public StyleRepositoryImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    public List<Style> get(){
-        return styles;
+    public List<Style> get() {
+        try (Session session = sessionFactory.openSession()){
+            Query<Style> query = session.createQuery("from Style", Style.class);
+            return query.list();
+        }
     }
 
+
     @Override
-    public Style get(int id){
-        return styles.stream()
-                .filter(style-> style.getId() == id)
-                .findFirst()
-                .orElseThrow(()-> new EntityNotFoundException("Style", id));
+    public Style get(int id) {
+        try (Session session = sessionFactory.openSession()) {
+            Style style = session.find(Style.class, id);
+            if (style == null) {
+                throw new EntityNotFoundException("Style", id);
+            }
+            return style;
+        }
     }
 }

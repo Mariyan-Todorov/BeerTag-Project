@@ -32,21 +32,21 @@ public class BeerRestController {
         this.authenticationHelper = authenticationHelper;
     }
 
-//    @GetMapping
-//    public List<Beer> get(
-//            @RequestParam(required = false) String name,
-//            @RequestParam(required = false) Double minAbv,
-//            @RequestParam(required = false) Double maxAbv,
-//            @RequestParam(required = false) Integer styleId,
-//            @RequestParam(required = false) String sortBy,
-//            @RequestParam(required = false) String sortOrder) {
-//        return service.get(name, minAbv, maxAbv, styleId, sortBy, sortOrder);
-//    }
-
     @GetMapping
-    public List<Beer> getAll(){
-        return service.getAll();
+    public List<Beer> get(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Double minAbv,
+            @RequestParam(required = false) Double maxAbv,
+            @RequestParam(required = false) Integer styleId,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortOrder) {
+        return service.get(name, minAbv, maxAbv, styleId, sortBy, sortOrder);
     }
+
+//    @GetMapping
+//    public List<Beer> getAll(){
+//        return service.getAll();
+//    }
 
     @GetMapping("/{id}")
     public Beer get(@PathVariable int id) {
